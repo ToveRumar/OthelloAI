@@ -9,7 +9,8 @@ class GameController:
         self.rows = 4
         self.cols = 4
         self.playingField = self.createMatrix()
-        self.Viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
+        self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
+        self.viewer.main()
 
     def createMatrix(self):
         node_matrix = []
@@ -21,7 +22,7 @@ class GameController:
         return node_matrix
     
     def updateViewer(self):
-        self.Viewer.draw(self.playingField)
+        self.viewer.draw(self.playingField)
 
     def newMove(self, node):
         node.activate()

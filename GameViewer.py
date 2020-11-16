@@ -5,6 +5,7 @@ BLACK=(0,0,0)
 YELLOW=(255,255,0)
 RED=(255,0,0)
 GREEN=(0,255,0)
+GREY=(128,128,128)
 class GameViewer:
     
     def __init__(self,rows,cols,size, controller, nodeMatrix):
@@ -14,11 +15,12 @@ class GameViewer:
         self.screen = None
         self.controller = controller
         self.nodeMatrix = nodeMatrix
-        self.main()
+        
 
     def main(self):           
         pygame.init()
-        self.screen = pygame.display.set_mode((self.size,self.size))
+        self.screen = pygame.display.set_mode((740,self.size))
+        self.font = pygame.font.Font('freesansbold.ttf', 32)
         running = True
         self.draw(self.nodeMatrix)
         while running:
@@ -29,9 +31,11 @@ class GameViewer:
                     sys.exit()
                 if pygame.mouse.get_pressed()[0]:
                     pos=pygame.mouse.get_pos()
-                    new_node=self.get_clicked_node(pos)
-                    #new_node.activate()
-                    self.controller.newMove(new_node)
+                    if pos[0]>self.size:
+                        pass
+                    else:
+                        new_node=self.get_clicked_node(pos)
+                        self.controller.newMove(new_node)
 
                     
 
@@ -53,6 +57,14 @@ class GameViewer:
                     pygame.draw.rect(self.screen,RED,((j*width),(i*height),width,height))
                 else:
                    pygame.draw.rect(self.screen,GREEN,((j*width),(i*height),width,height)) 
+            pygame.draw.rect(self.screen,GREY,((4*width),(i*height),width,height))
+
+    def draw_text(self):
+        
+        text = self.font.render('Human', True, BLACK) 
+        textRect = text.get_rect()  
+        textRect.center = (680, 20)
+        self.screen.blit(text, textRect) 
 
     def get_clicked_node(self,pos):
         height= height=self.size//self.rows
@@ -66,6 +78,7 @@ class GameViewer:
         self.nodeMatrix = nodeMatrix
         self.draw_nodes()
         self.draw_grid()
+        self.draw_text()
         pygame.display.update()
 
 
