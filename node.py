@@ -1,23 +1,22 @@
-newest_node=None
-active_nodes=[]
-
+from enum import Enum
 class node:
     def __init__(self):
         self.on=False
-  #      self.color = "green"
-    
- #   def get_color(self):
- #       return color  
+        self.state= 0 #Enum('State','OFF WHITE BLACK')
 
+        #self.state=State.OFF
+    def set_state(self,state):
+        self.state=state
+        
+    def get_state(self):
+        return self.state
+    
     def is_on(self):
         return self.on
-    
-    def is_off(self):
-        return self.off
 
     def activate(self):
         self.on=True
- #       self.color = color
+        #self.state=State.WHITE
         return self.on
 
     

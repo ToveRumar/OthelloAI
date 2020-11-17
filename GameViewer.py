@@ -21,9 +21,13 @@ class GameViewer:
         pygame.init()
         self.screen = pygame.display.set_mode((740,self.size))
         self.font = pygame.font.Font('freesansbold.ttf', 32)
-        running = True
+       
         self.draw(self.nodeMatrix)
-        while running:
+      
+
+                    
+    def run(self):
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running=False
@@ -37,7 +41,6 @@ class GameViewer:
                         new_node=self.get_clicked_node(pos)
                         self.controller.newMove(new_node)
 
-                    
 
 
     def draw_grid(self):
@@ -53,8 +56,11 @@ class GameViewer:
         width=self.size//self.cols
         for i in range(self.rows):
             for j in range(self.cols):
-                if (self.nodeMatrix[i][j].is_on()):
-                    pygame.draw.rect(self.screen,RED,((j*width),(i*height),width,height))
+                
+                if (self.nodeMatrix[i][j].get_state()==1):
+                    pygame.draw.rect(self.screen,WHITE,((j*width),(i*height),width,height))
+                elif (self.nodeMatrix[i][j].get_state()==2):
+                    pygame.draw.rect(self.screen,BLACK,((j*width),(i*height),width,height))
                 else:
                    pygame.draw.rect(self.screen,GREEN,((j*width),(i*height),width,height)) 
             pygame.draw.rect(self.screen,GREY,((4*width),(i*height),width,height))
