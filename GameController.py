@@ -2,7 +2,8 @@ import node, GameViewer,AIPlayer,HumanPlayer
 # get color from each player
 # start game
 # bool move is valid
-
+WHITE=(255,255,255)
+BLACK=(0,0,0)
 class GameController:
 
     def __init__ (self):
@@ -12,7 +13,7 @@ class GameController:
         self.playingField = self.createMatrix()
         self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
         
-        self.players=[AIPlayer.AIPlayer("White",self),HumanPlayer.HumanPlayer("Black",self)]
+        self.players=[AIPlayer.AIPlayer(WHITE,self),HumanPlayer.HumanPlayer(BLACK,self)]
         self.startNewGame()
         self.viewer.main()
         self.viewer.run()
@@ -41,6 +42,7 @@ class GameController:
             player.setupFirstTwoTiles()
 
     def placeTile(self,position,playerNbr):
+        
         self.playingField[position[0]][position[1]].set_state(playerNbr)
 
 GameController()
