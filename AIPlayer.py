@@ -1,6 +1,4 @@
 from Player import Player
-WHITE=(255,255,255)
-BLACK=(0,0,0)
 class AIPlayer(Player):
     
     def __init__(self,color,controller):
@@ -12,6 +10,10 @@ class AIPlayer(Player):
         
         self.controller.placeTile([1,1],self.color)
         self.controller.placeTile([2,2],self.color)
+
+    def myMove(self, playingField):
+        return Player.returnValidMoves(self, playingField)
+
        
 
 

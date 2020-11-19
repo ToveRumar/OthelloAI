@@ -23,9 +23,10 @@ class GameViewer:
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.draw(self.tileMatrix)
       
-
                     
     def run(self):
+        pos=[]
+        done = False
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -37,8 +38,13 @@ class GameViewer:
                     if pos[0]>self.size:
                         pass
                     else:
-                        new_tile=self.get_clicked_tile(pos)
-                        self.controller.newMove(new_tile)
+                        done = True
+                        break
+            if done:
+                break
+        print("breaking the loop "+ str(pos))
+                        #new_tile=self.get_clicked_tile(pos)
+        self.controller.handleClick(self.get_clicked_tile(pos))
 
 
 
@@ -55,14 +61,19 @@ class GameViewer:
         width=self.size//self.cols
         for i in range(self.rows):
             for j in range(self.cols):
-                pygame.draw.rect(self.screen,self.tileMatrix[i][j].get_tile_color(),((j*width),(i*height),width,height))
+                if self.tileMatrix[i][j] == "W":
+                    pygame.draw.rect(self.screen,WHITE,((j*width),(i*height),width,height))
+                elif self.tileMatrix[i][j] == "B":
+                    pygame.draw.rect(self.screen,BLACK,((j*width),(i*height),width,height))
+                else:
+                    pygame.draw.rect(self.screen,GREEN,((j*width),(i*height),width,height))
             pygame.draw.rect(self.screen,GREY,((4*width),(i*height),width,height))
 
     def draw_text(self):
         
         text = self.font.render('Human', True, BLACK) 
         textRect = text.get_rect()  
-        textRect.center = (680, 20)
+        textRect.center = (675, 20)
         self.screen.blit(text, textRect) 
 
     def get_clicked_tile(self,pos):
@@ -71,13 +82,25 @@ class GameViewer:
         x,y= pos
         row=y//height
         col=x//width
-        return self.tileMatrix[row][col]
+        return row,col
 
     def draw(self, tileMatrix):
         self.tileMatrix = tileMatrix
         self.draw_tiles()
         self.draw_grid()
         self.draw_text()
+        pygame.display.update()
+
+    def showPossibleMoves(self, posMoves):
+        height=self.size//self.rows
+        width=self.size//self.cols
+        for move in posMoves:
+            points=str(move.getPoints())
+            print("drawing points!"+points)
+            text = self.font.render(points, True, BLACK) 
+            textRect = text.get_rect()  
+            textRect.center = ((width*move.getPos()[1])+(width/2), (height*move.getPos()[0])+(height/2))
+            self.screen.blit(text, textRect)
         pygame.display.update()
 
 

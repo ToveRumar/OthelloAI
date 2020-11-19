@@ -1,4 +1,4 @@
-import tile, GameViewer,AIPlayer,HumanPlayer
+import GameViewer,AIPlayer,HumanPlayer, time
 # get color from each player
 # start game
 # bool move is valid
@@ -13,50 +13,68 @@ class GameController:
         
         self.playingField = self.createMatrix()
         self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
-        
-        self.players=[AIPlayer.AIPlayer(WHITE,self),HumanPlayer.HumanPlayer(BLACK,self)]
+        self.player1=AIPlayer.AIPlayer("W",self)
+        self.player2=HumanPlayer.HumanPlayer("B",self)
+        self.turn = self.player2
+        self.players={}
+        self.players["AIPlayer"]=self.player1
+        self.players["HumanPlayer"]=self.player2
         self.startNewGame()
-        self.viewer.main()
-        self.viewer.run()
+        
+        
+        #self.validMoves = self.player2.returnValidMoves(self.playingField)
+        
+        
 
-    def setPlayers(self):
-        self.players=[AIPlayer.AIPlayer("White",self),HumanPlayer.HumanPlayer("Black",self)]
+   # def setPlayers(self):
+  #      self.players=[AIPlayer.AIPlayer("W",self),HumanPlayer.HumanPlayer("B",self)]
+
+    def startNewGame(self):
+        for player in self.players:
+            self.players[player].setupFirstTwoTiles()
+        self.viewer.main()
+        validMoves=self.turn.myMove(self.playingField)
+        self.viewer.showPossibleMoves(validMoves)
+        self.viewer.run()
+        self.turn = self.player1
+        validMoves=self.turn.myMove(self.playingField)
+        self.viewer.showPossibleMoves(validMoves)
+        
+        time.sleep(2)
+        self.viewer.run()
 
     def createMatrix(self):
         tile_matrix = []
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
-                row.append(tile.tile())
+                row.append(0)
+                #row.append(tile.tile())
             tile_matrix.append(row)
         return tile_matrix
     
     def updateViewer(self):
         self.viewer.draw(self.playingField)
 
-    def newMove(self, tile):
-        tile.activate()
+    def handleClick(self, position):
+        print("handling cklick")
+        self.players["HumanPlayer"].handleIncomingMove(position)
         self.updateViewer()
         #lägg till i placeTile
 
     def getAvailableTiles(self, position, playerColor):
         availableLiles = []
 
-
-    def startNewGame(self):
-        for player in self.players:
-            player.setupFirstTwoTiles()
                 
     def moveIsValid(self, position, playerColor):
-        if self.playingField[position[0]][position[1]].get_tile_color() == GREEN:
-            print(self.playingField[position[0]][position[1]].get_tile_color() == GREEN)
+        if self.playingField[position[0]][position[1]] == 0:
             return True
         else:
             return False
 
     def placeTile(self,position,playerColor):
         if  self.moveIsValid(position, playerColor):
-            self.playingField[position[0]][position[1]].set_tile_color(playerColor)
+            self.playingField[position[0]][position[1]] = playerColor
             return True
         else:
             return False
