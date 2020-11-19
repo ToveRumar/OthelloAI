@@ -8,4 +8,5 @@ class HumanPlayer:
     
     
     def setupFirstTwoTiles(self):
-        self.controller.placeTile([2,3],self.color)
+        self.controller.placeTile([1,2],self.color)
+        self.controller.placeTile([2,1],self.color)

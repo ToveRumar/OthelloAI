@@ -1,4 +1,4 @@
-import pygame, sys, node
+import pygame, sys, tile
 
 WHITE=(255,255,255)
 BLACK=(0,0,0)
@@ -8,20 +8,20 @@ GREEN=(0,255,0)
 GREY=(128,128,128)
 class GameViewer:
     
-    def __init__(self,rows,cols,size, controller, nodeMatrix):
+    def __init__(self,rows,cols,size, controller, tileMatrix):
         self.rows=rows
         self.cols=cols
         self.size=size
         self.screen = None
         self.controller = controller
-        self.nodeMatrix = nodeMatrix
+        self.tileMatrix = tileMatrix
         
 
     def main(self):           
         pygame.init()
         self.screen = pygame.display.set_mode((740,self.size))
         self.font = pygame.font.Font('freesansbold.ttf', 32)
-        self.draw(self.nodeMatrix)
+        self.draw(self.tileMatrix)
       
 
                     
@@ -37,8 +37,8 @@ class GameViewer:
                     if pos[0]>self.size:
                         pass
                     else:
-                        new_node=self.get_clicked_node(pos)
-                        self.controller.newMove(new_node)
+                        new_tile=self.get_clicked_tile(pos)
+                        self.controller.newMove(new_tile)
 
 
 
@@ -50,19 +50,12 @@ class GameViewer:
             for j in range(self.cols):
                 pygame.draw.line(self.screen,(BLACK),(j*width,0),(j*width,self.size))
 
-    def draw_nodes(self):
+    def draw_tiles(self):
         height=self.size//self.rows
         width=self.size//self.cols
         for i in range(self.rows):
             for j in range(self.cols):
-                print(self.screen,self.nodeMatrix[i][j].get_state())
-                pygame.draw.rect(self.screen,self.nodeMatrix[i][j].get_state(),((j*width),(i*height),width,height))
-                #if (self.nodeMatrix[i][j].get_state()!=0):
-                   # pygame.draw.rect(self.screen,self.nodeMatrix[i][j].get_state(),((j*width),(i*height),width,height))
-                #elif (self.nodeMatrix[i][j].get_state()==2):
-                    #pygame.draw.rect(self.screen,BLACK,((j*width),(i*height),width,height))
-                #else:
-                  # pygame.draw.rect(self.screen,GREEN,((j*width),(i*height),width,height)) 
+                pygame.draw.rect(self.screen,self.tileMatrix[i][j].get_tile_color(),((j*width),(i*height),width,height))
             pygame.draw.rect(self.screen,GREY,((4*width),(i*height),width,height))
 
     def draw_text(self):
@@ -72,23 +65,20 @@ class GameViewer:
         textRect.center = (680, 20)
         self.screen.blit(text, textRect) 
 
-    def get_clicked_node(self,pos):
+    def get_clicked_tile(self,pos):
         height= height=self.size//self.rows
         width=self.size//self.cols
         x,y= pos
         row=y//height
         col=x//width
-        return self.nodeMatrix[row][col]
+        return self.tileMatrix[row][col]
 
-    def draw(self, nodeMatrix):
-        self.nodeMatrix = nodeMatrix
-        self.draw_nodes()
+    def draw(self, tileMatrix):
+        self.tileMatrix = tileMatrix
+        self.draw_tiles()
         self.draw_grid()
         self.draw_text()
         pygame.display.update()
-
-
-#simulation(4,4,600)
 
 
 

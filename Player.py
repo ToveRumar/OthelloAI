@@ -14,9 +14,6 @@ class Player:
     def getColor():
         return self.color
 
-    def moveIsValid(self):
-        pass
-
-  
+    
 
         

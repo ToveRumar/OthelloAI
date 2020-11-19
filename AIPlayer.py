@@ -10,6 +10,7 @@ class AIPlayer(Player):
 
     def setupFirstTwoTiles(self):
         
+        self.controller.placeTile([1,1],self.color)
         self.controller.placeTile([2,2],self.color)
        
 
