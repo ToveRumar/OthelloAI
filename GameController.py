@@ -23,23 +23,27 @@ class GameController:
         
 
     def startNewGame(self):
-        GameNotOver=True
+        GameOver=False
         for player in self.players:
             self.players[player].setupFirstTwoTiles()
         self.viewer.main()
-        while(GameNotOver):
+        while(not GameOver):
             validMoves=self.turn.myMove(self.playingField)
-            self.viewer.showPossibleMoves(validMoves)
-            if isinstance(self.turn,HumanPlayer.HumanPlayer):
-                self.viewer.run()
-            elif isinstance(self.turn,AIPlayer.AIPlayer) :
-                time.sleep(2)
-                self.turn.makeMove(random.choice(validMoves).getPos())
-            self.updateViewer()
-            if self.turn==self.player1:
-                self.turn=self.player2
+            if validMoves:
+                self.viewer.showPossibleMoves(validMoves)
+                if isinstance(self.turn,HumanPlayer.HumanPlayer):
+                    self.viewer.run()
+                elif isinstance(self.turn,AIPlayer.AIPlayer) :
+                    time.sleep(2)
+                    self.turn.makeMove(random.choice(validMoves).getPos())
+                self.updateViewer()
+                if self.turn==self.player1:
+                    self.turn=self.player2
+                else:
+                    self.turn=self.player1
             else:
-                self.turn=self.player1
+                GameOver=True
+                
             
        
 
