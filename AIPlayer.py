@@ -1,4 +1,5 @@
 from Player import Player
+import random
 class AIPlayer(Player):
     
     def __init__(self,color,controller):
@@ -12,7 +13,10 @@ class AIPlayer(Player):
         self.controller.placeTile([2,2],self.color)
 
     def myMove(self, playingField):
-        return Player.returnValidMoves(self, playingField)
+        possibleMoves= Player.returnValidMoves(self, playingField)
+        move=random.choice(possibleMoves)
+        Player.makeMove(self,move.getPos())
+
 
        
 

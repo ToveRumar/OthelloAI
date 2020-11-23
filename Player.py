@@ -8,6 +8,7 @@ class Player:
        
     
     def makeMove(self, position):
+        print("placing tile")
         self.controller.placeTile( position, self.color)
 
 

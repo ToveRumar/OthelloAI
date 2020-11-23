@@ -3,6 +3,7 @@ class Move:
         self.pos = pos
         self.points = points
         self.color = color
+        self.tilesToFlip=[]
 
     def getPos(self):
         return self.pos
@@ -12,3 +13,6 @@ class Move:
     
     def getColor(self):
         return self.color
+    
+    def getTilesToFlip(self):
+        return self.tilesToFlip

@@ -21,27 +21,21 @@ class GameController:
         self.players["HumanPlayer"]=self.player2
         self.startNewGame()
         
-        
-        #self.validMoves = self.player2.returnValidMoves(self.playingField)
-        
-        
-
-   # def setPlayers(self):
-  #      self.players=[AIPlayer.AIPlayer("W",self),HumanPlayer.HumanPlayer("B",self)]
 
     def startNewGame(self):
+        GameNotOver=True
         for player in self.players:
             self.players[player].setupFirstTwoTiles()
         self.viewer.main()
-        validMoves=self.turn.myMove(self.playingField)
-        self.viewer.showPossibleMoves(validMoves)
-        self.viewer.run()
-        self.turn = self.player1
-        validMoves=self.turn.myMove(self.playingField)
-        self.viewer.showPossibleMoves(validMoves)
-        
-        time.sleep(2)
-        self.viewer.run()
+        while(GameNotOver):
+            validMoves=self.turn.myMove(self.playingField)
+            self.viewer.showPossibleMoves(validMoves)
+            self.viewer.run()
+            self.turn = self.player1
+            self.turn.myMove(self.playingField)
+            self.viewer.draw(self.playingField)
+            self.turn=self.player2
+       
 
     def createMatrix(self):
         tile_matrix = []
@@ -75,6 +69,7 @@ class GameController:
     def placeTile(self,position,playerColor):
         if  self.moveIsValid(position, playerColor):
             self.playingField[position[0]][position[1]] = playerColor
+            
             return True
         else:
             return False
