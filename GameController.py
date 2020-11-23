@@ -1,4 +1,4 @@
-import GameViewer,AIPlayer,HumanPlayer, time
+import GameViewer,AIPlayer,HumanPlayer, time,random
 # get color from each player
 # start game
 # bool move is valid
@@ -15,7 +15,7 @@ class GameController:
         self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
         self.player1=AIPlayer.AIPlayer("W",self)
         self.player2=HumanPlayer.HumanPlayer("B",self)
-        self.turn = self.player2
+        self.turn = self.player2  ##Make this a local variable in startnewgame
         self.players={}
         self.players["AIPlayer"]=self.player1
         self.players["HumanPlayer"]=self.player2
@@ -30,11 +30,17 @@ class GameController:
         while(GameNotOver):
             validMoves=self.turn.myMove(self.playingField)
             self.viewer.showPossibleMoves(validMoves)
-            self.viewer.run()
-            self.turn = self.player1
-            self.turn.myMove(self.playingField)
-            self.viewer.draw(self.playingField)
-            self.turn=self.player2
+            if isinstance(self.turn,HumanPlayer.HumanPlayer):
+                self.viewer.run()
+            elif isinstance(self.turn,AIPlayer.AIPlayer) :
+                time.sleep(2)
+                self.turn.makeMove(random.choice(validMoves).getPos())
+            self.updateViewer()
+            if self.turn==self.player1:
+                self.turn=self.player2
+            else:
+                self.turn=self.player1
+            
        
 
     def createMatrix(self):
@@ -53,7 +59,7 @@ class GameController:
     def handleClick(self, position):
         print("handling cklick")
         self.players["HumanPlayer"].handleIncomingMove(position)
-        self.updateViewer()
+        
         #lägg till i placeTile
 
     def getAvailableTiles(self, position, playerColor):
