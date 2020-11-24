@@ -52,6 +52,7 @@ class GameController:
                     self.turn=self.player1
             else:
                 GameOver=True
+        self.viewer.run()
                 
             
        
