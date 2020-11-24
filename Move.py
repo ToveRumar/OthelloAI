@@ -1,9 +1,9 @@
 class Move:
-    def __init__ (self, pos, points, color):
+    def __init__ (self, pos, points, color,tilesToFlip):
         self.pos = pos
         self.points = points
         self.color = color
-        self.tilesToFlip=[]
+        self.tilesToFlip=tilesToFlip
 
     def getPos(self):
         return self.pos

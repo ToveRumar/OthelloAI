@@ -44,7 +44,7 @@ class GameViewer:
                 break
         print("breaking the loop "+ str(pos))
                         #new_tile=self.get_clicked_tile(pos)
-        self.controller.handleClick(self.get_clicked_tile(pos))
+        return self.get_clicked_tile(pos)
 
 
 
@@ -82,7 +82,7 @@ class GameViewer:
         x,y= pos
         row=y//height
         col=x//width
-        return row,col
+        return [row,col]
 
     def draw(self, tileMatrix):
         self.tileMatrix = tileMatrix

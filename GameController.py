@@ -30,12 +30,20 @@ class GameController:
         while(not GameOver):
             validMoves=self.turn.myMove(self.playingField)
             if validMoves:
+                moveToMake=None
                 self.viewer.showPossibleMoves(validMoves)
                 if isinstance(self.turn,HumanPlayer.HumanPlayer):
-                    self.viewer.run()
+                    clickedTilePos=self.viewer.run()  
+                    for move in validMoves:
+                        if clickedTilePos==move.getPos():
+                            moveToMake=move
+                            break
                 elif isinstance(self.turn,AIPlayer.AIPlayer) :
-                    time.sleep(2)
-                    self.turn.makeMove(random.choice(validMoves).getPos())
+                    time.sleep(100)
+                    moveToMake=random.choice(validMoves)   
+                
+                self.turn.makeMove(moveToMake.getPos())
+                self.flipTiles(moveToMake.getTilesToFlip(),moveToMake.getColor())
                 self.updateViewer()
                 if self.turn==self.player1:
                     self.turn=self.player2
@@ -61,7 +69,7 @@ class GameController:
         self.viewer.draw(self.playingField)
 
     def handleClick(self, position):
-        print("handling cklick")
+       
         self.players["HumanPlayer"].handleIncomingMove(position)
         
         #lägg till i placeTile
@@ -69,6 +77,11 @@ class GameController:
     def getAvailableTiles(self, position, playerColor):
         availableLiles = []
 
+    def flipTiles(self,tilesToFlip,color):
+        
+        for position in tilesToFlip:
+            print(position)
+            self.playingField[position[0]][position[1]]=color
                 
     def moveIsValid(self, position, playerColor):
         if self.playingField[position[0]][position[1]] == 0:
@@ -78,6 +91,7 @@ class GameController:
 
     def placeTile(self,position,playerColor):
         if  self.moveIsValid(position, playerColor):
+            print(position)
             self.playingField[position[0]][position[1]] = playerColor
             
             return True
