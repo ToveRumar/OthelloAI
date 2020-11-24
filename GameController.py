@@ -33,15 +33,16 @@ class GameController:
                 moveToMake=None
                 self.viewer.showPossibleMoves(validMoves)
                 if isinstance(self.turn,HumanPlayer.HumanPlayer):
-                    clickedTilePos=self.viewer.run()  
-                    for move in validMoves:
-                        if clickedTilePos==move.getPos():
-                            moveToMake=move
-                            break
+                    while(moveToMake==None):
+                        clickedTilePos=self.viewer.run()  
+                        for move in validMoves:
+                            if clickedTilePos==move.getPos():
+                                moveToMake=move
+                                break
+                    
                 elif isinstance(self.turn,AIPlayer.AIPlayer) :
-                    time.sleep(100)
+                    time.sleep(2)
                     moveToMake=random.choice(validMoves)   
-                
                 self.turn.makeMove(moveToMake.getPos())
                 self.flipTiles(moveToMake.getTilesToFlip(),moveToMake.getColor())
                 self.updateViewer()
@@ -81,6 +82,7 @@ class GameController:
         
         for position in tilesToFlip:
             print(position)
+
             self.playingField[position[0]][position[1]]=color
                 
     def moveIsValid(self, position, playerColor):
@@ -91,7 +93,6 @@ class GameController:
 
     def placeTile(self,position,playerColor):
         if  self.moveIsValid(position, playerColor):
-            print(position)
             self.playingField[position[0]][position[1]] = playerColor
             
             return True

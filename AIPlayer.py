@@ -13,7 +13,9 @@ class AIPlayer(Player):
         self.controller.placeTile([2,2],self.color)
 
     def myMove(self, playingField):
-        return Player.returnValidMoves(self, playingField)
+        validMoves=Player.returnValidMoves(self, playingField)
+       
+        return validMoves
         
 
 

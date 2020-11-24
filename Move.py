@@ -4,7 +4,7 @@ class Move:
         self.points = points
         self.color = color
         self.tilesToFlip=tilesToFlip
-
+        
     def getPos(self):
         return self.pos
 

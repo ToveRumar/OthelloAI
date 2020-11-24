@@ -16,6 +16,9 @@ class HumanPlayer(Player):
         Player.makeMove(self,position)
 
     def myMove(self, playingField):
-
-        return Player.returnValidMoves(self, playingField)
+        validMoves=Player.returnValidMoves(self, playingField)
+        
+        
+        return validMoves
+       
 

@@ -96,7 +96,7 @@ class GameViewer:
         width=self.size//self.cols
         for move in posMoves:
             points=str(move.getPoints())
-            print("drawing points!"+points)
+            
             text = self.font.render(points, True, BLACK) 
             textRect = text.get_rect()  
             textRect.center = ((width*move.getPos()[1])+(width/2), (height*move.getPos()[0])+(height/2))
