@@ -42,9 +42,13 @@ class GameController:
                     
                 elif isinstance(self.turn,AIPlayer.AIPlayer) :
                     time.sleep(2)
-                    moveToMake=random.choice(validMoves)   
+                    moveToMake=validMoves[0]
+                    for move in validMoves:
+                        if moveToMake.getPoints()<move.getPoints():
+                            moveToMake=move        
                 self.turn.makeMove(moveToMake.getPos())
                 self.flipTiles(moveToMake.getTilesToFlip(),moveToMake.getColor())
+                self.turn.incPoints(moveToMake.getPoints())
                 self.updateViewer()
                 if self.turn==self.player1:
                     self.turn=self.player2
@@ -68,7 +72,7 @@ class GameController:
         return tile_matrix
     
     def updateViewer(self):
-        self.viewer.draw(self.playingField)
+        self.viewer.draw(self.playingField,self. player1.getPoints(), self.player2.getPoints())
 
     def handleClick(self, position):
        
@@ -82,8 +86,6 @@ class GameController:
     def flipTiles(self,tilesToFlip,color):
         
         for position in tilesToFlip:
-            print(position)
-
             self.playingField[position[0]][position[1]]=color
                 
     def moveIsValid(self, position, playerColor):

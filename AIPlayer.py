@@ -5,8 +5,10 @@ class AIPlayer(Player):
     def __init__(self,color,controller):
        
         Player.__init__(self,color,controller)
-        
-
+        self.name="AI"
+    
+    def getName(self):
+        return self.name
     def setupFirstTwoTiles(self):
         
         self.controller.placeTile([1,1],self.color)

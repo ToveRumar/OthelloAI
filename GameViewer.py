@@ -21,7 +21,7 @@ class GameViewer:
         pygame.init()
         self.screen = pygame.display.set_mode((740,self.size))
         self.font = pygame.font.Font('freesansbold.ttf', 32)
-        self.draw(self.tileMatrix)
+        self.draw(self.tileMatrix,0,0)
       
                     
     def run(self):
@@ -69,11 +69,23 @@ class GameViewer:
                     pygame.draw.rect(self.screen,GREEN,((j*width),(i*height),width,height))
             pygame.draw.rect(self.screen,GREY,((4*width),(i*height),width,height))
 
-    def draw_text(self):
+    def draw_text(self,player1Points,player2Points):
         
-        text = self.font.render('Human', True, BLACK) 
+        text = self.font.render("Human", True, BLACK) 
         textRect = text.get_rect()  
         textRect.center = (675, 20)
+        self.screen.blit(text, textRect) 
+        text = self.font.render(str(player2Points), True, BLACK) 
+        textRect = text.get_rect()  
+        textRect.center = (675,60)
+        self.screen.blit(text, textRect) 
+        text = self.font.render("AI", True, BLACK) 
+        textRect = text.get_rect()  
+        textRect.center = (675,200)
+        self.screen.blit(text, textRect) 
+        text = self.font.render(str(player1Points), True, BLACK) 
+        textRect = text.get_rect()  
+        textRect.center = (675,260)
         self.screen.blit(text, textRect) 
 
     def get_clicked_tile(self,pos):
@@ -84,11 +96,11 @@ class GameViewer:
         col=x//width
         return [row,col]
 
-    def draw(self, tileMatrix):
+    def draw(self, tileMatrix,player1Points,player2Points):
         self.tileMatrix = tileMatrix
         self.draw_tiles()
         self.draw_grid()
-        self.draw_text()
+        self.draw_text(player1Points,player2Points)
         pygame.display.update()
 
     def showPossibleMoves(self, posMoves):

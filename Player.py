@@ -3,6 +3,7 @@ class Player:
     def __init__(self,color,controller):
        
         self.color=color
+        self.points=0
 
         self.controller=controller
        
@@ -11,7 +12,12 @@ class Player:
         
         self.controller.placeTile( position, self.color)
 
+    def getPoints(self):
+        return self.points
 
+    def incPoints(self,points):
+        self.points=self.points+points
+        
     def getColor():
         return self.color
 
