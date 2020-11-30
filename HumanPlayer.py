@@ -9,9 +9,9 @@ class HumanPlayer(Player):
     def getName(self):
         return self.name
         
-    def setupFirstTwoTiles(self):
-        self.controller.placeTile([1,2],self.color)
-        self.controller.placeTile([2,1],self.color)
+    def setupFirstTwoTiles(self, boardSize):
+        self.controller.placeTile([((boardSize//2)-1),(boardSize//2)],self.color)
+        self.controller.placeTile([(boardSize//2),((boardSize//2)-1)],self.color)
 
     def handleIncomingMove(self, position):
         print("player hanling move")

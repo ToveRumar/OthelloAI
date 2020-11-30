@@ -1,4 +1,5 @@
 import pygame, sys, tile
+from threading import Thread
 
 WHITE=(255,255,255)
 BLACK=(0,0,0)
@@ -22,7 +23,7 @@ class GameViewer:
         self.screen = pygame.display.set_mode((740,self.size))
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.draw(self.tileMatrix,0,0)
-      
+        
                     
     def run(self):
         pos=[]
@@ -57,6 +58,7 @@ class GameViewer:
                 pygame.draw.line(self.screen,(BLACK),(j*width,0),(j*width,self.size))
 
     def draw_tiles(self):
+        self.screen.fill(GREY)
         height=self.size//self.rows
         width=self.size//self.cols
         for i in range(self.rows):
@@ -67,15 +69,16 @@ class GameViewer:
                     pygame.draw.rect(self.screen,BLACK,((j*width),(i*height),width,height))
                 else:
                     pygame.draw.rect(self.screen,GREEN,((j*width),(i*height),width,height))
-            pygame.draw.rect(self.screen,GREY,((4*width),(i*height),width,height))
+            #pygame.draw.rect(self.screen,GREY,((8*width),(i*height),width,height))
+            
 
-    def draw_text(self,player1Points,player2Points):
+    def draw_text(self,whitePlayerPoints,blackPlayerPoints):
         
         text = self.font.render("Human", True, BLACK) 
         textRect = text.get_rect()  
         textRect.center = (675, 20)
         self.screen.blit(text, textRect) 
-        text = self.font.render(str(player2Points), True, BLACK) 
+        text = self.font.render(str(blackPlayerPoints), True, BLACK) 
         textRect = text.get_rect()  
         textRect.center = (675,60)
         self.screen.blit(text, textRect) 
@@ -83,7 +86,7 @@ class GameViewer:
         textRect = text.get_rect()  
         textRect.center = (675,200)
         self.screen.blit(text, textRect) 
-        text = self.font.render(str(player1Points), True, BLACK) 
+        text = self.font.render(str(whitePlayerPoints), True, BLACK) 
         textRect = text.get_rect()  
         textRect.center = (675,260)
         self.screen.blit(text, textRect) 
@@ -96,11 +99,11 @@ class GameViewer:
         col=x//width
         return [row,col]
 
-    def draw(self, tileMatrix,player1Points,player2Points):
+    def draw(self, tileMatrix,whitePlayerPoints,blackPlayerPoints):
         self.tileMatrix = tileMatrix
         self.draw_tiles()
         self.draw_grid()
-        self.draw_text(player1Points,player2Points)
+        self.draw_text(whitePlayerPoints,blackPlayerPoints)
         pygame.display.update()
 
     def showPossibleMoves(self, posMoves):
@@ -116,6 +119,19 @@ class GameViewer:
         pygame.display.update()
 
 
+    def drawGameOver(self):
+        font = pygame.font.Font('freesansbold.ttf', 80)
+        text = font.render("Game Over!", True, RED) 
+        textRect = text.get_rect()  
+        textRect.center = (300, 300)
+        self.screen.blit(text, textRect)
+        pygame.display.update()
 
-    
+
+   
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit
+                    sys.exit()
        

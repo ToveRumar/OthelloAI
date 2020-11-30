@@ -15,8 +15,8 @@ class Player:
     def getPoints(self):
         return self.points
 
-    def incPoints(self,points):
-        self.points=self.points+points
+    def setPoints(self,points):
+        self.points=points
         
     def getColor():
         return self.color

@@ -9,10 +9,10 @@ class AIPlayer(Player):
     
     def getName(self):
         return self.name
-    def setupFirstTwoTiles(self):
+    def setupFirstTwoTiles(self,boardSize):
         
-        self.controller.placeTile([1,1],self.color)
-        self.controller.placeTile([2,2],self.color)
+        self.controller.placeTile([((boardSize//2)-1),((boardSize//2)-1)],self.color)
+        self.controller.placeTile([(boardSize//2),(boardSize//2)],self.color)
 
     def myMove(self, playingField):
         validMoves=Player.returnValidMoves(self, playingField)
@@ -20,9 +20,13 @@ class AIPlayer(Player):
         return validMoves
         
 
-
+    def calcBestMove(self,validMoves):
+        moveToMake=validMoves[0]
+        for move in validMoves:
+            if moveToMake.getPoints()<move.getPoints():
+                moveToMake=move   
        
-
+        return moveToMake
 
 
 
