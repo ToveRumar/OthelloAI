@@ -121,9 +121,12 @@ class GameViewer:
         pygame.display.update()
 
 
-    def drawGameOver(self):
+    def drawGameOver(self,winner):
         font = pygame.font.Font(self.fontFile,80)
-        text =font.render("Game Over!", True, RED) 
+        if not winner:
+            text =font.render("IT´S A TIE", True, RED) 
+        else:
+            text =font.render(winner+" WON!!!", True, RED) 
         textRect = text.get_rect()  
         textRect.center = (300, 250)
         self.screen.blit(text, textRect)

@@ -62,7 +62,13 @@ class GameController:
                     turn=self.whitePlayer
             else:
                 GameOver=True
-        self.viewer.drawGameOver()
+        winner=None
+        if self.whitePlayer.getPoints()>self.blackPlayer.getPoints():
+            winner=self.whitePlayer.getName()
+        elif self.whitePlayer.getPoints<self.blackPlayer.getPoints():
+            winner=self.blackPlayer.getName
+
+        self.viewer.drawGameOver(winner)
         
 
     def createMatrix(self):
