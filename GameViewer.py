@@ -1,4 +1,4 @@
-import pygame, sys, tile
+import pygame, sys, tile,time
 from threading import Thread
 
 WHITE=(255,255,255)
@@ -18,11 +18,11 @@ class GameViewer:
         self.tileMatrix = tileMatrix
         
 
-    def main(self):           
+    def setup(self):           
         pygame.init()
         self.screen = pygame.display.set_mode((740,self.size))
         self.font = pygame.font.Font('freesansbold.ttf', 32)
-        self.draw(self.tileMatrix,0,0)
+        #self.draw(self.tileMatrix,0,0)
         
                     
     def run(self):
@@ -42,9 +42,7 @@ class GameViewer:
                         done = True
                         break
             if done:
-                break
-        print("breaking the loop "+ str(pos))
-                        #new_tile=self.get_clicked_tile(pos)
+                break                
         return self.get_clicked_tile(pos)
 
 
@@ -134,4 +132,46 @@ class GameViewer:
                 if event.type == pygame.QUIT:
                     pygame.quit
                     sys.exit()
-       
+    
+    def startScreen(self):
+        pygame.draw.rect(self.screen,BLACK, (0,0, 380,600))
+        pygame.draw.rect(self.screen,WHITE, (380,0, 380,600))
+        font = pygame.font.Font('freesansbold.ttf', 80)
+        text = font.render("OTHELLO", True, RED) 
+        textRect = text.get_rect()  
+        textRect.center = (380, 300)
+        self.screen.blit(text, textRect) 
+        pygame.display.update()
+        pos=self.waitForInput()
+        pygame.draw.rect(self.screen,BLACK, (0,0, 380,600))
+        pygame.draw.rect(self.screen,WHITE, (380,0, 380,600))
+        font = pygame.font.Font('freesansbold.ttf',60)
+        text = font.render("Pick a Color", True, RED) 
+        textRect = text.get_rect()  
+        textRect.center = (380, 300)
+        self.screen.blit(text, textRect) 
+        font = pygame.font.Font('freesansbold.ttf', 50)
+        text = font.render("(Black begins)", True, RED) 
+        textRect = text.get_rect()  
+        textRect.center = (380, 380)
+        self.screen.blit(text, textRect) 
+        pygame.display.update()
+        pos=self.waitForInput()
+        if pos[0]<380:
+            return "B"
+        else:
+            return "W"
+
+    def waitForInput(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running=False
+                    pygame.quit
+                    sys.exit()
+                if pygame.mouse.get_pressed()[0]:
+                    pos=pygame.mouse.get_pos()
+                    if pos[0]>self.size:
+                        pass
+                    else:
+                        return pos

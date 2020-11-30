@@ -10,28 +10,35 @@ class GameController:
     def __init__ (self,size):
         self.rows = size
         self.cols = size
-        
         self.playingField = self.createMatrix()
         self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
-        self.whitePlayer=AIPlayer.AIPlayer("W",self)
-        self.blackPlayer=HumanPlayer.HumanPlayer("B",self)
-        self.turn = self.blackPlayer  ##Make this a local variable in startnewgame
-       
-        self.startNewGame()
+        self.whitePlayer=None
+        self.blackPlayer=None
+         
+        self.NewGame()
         
 
-    def startNewGame(self):
+    def NewGame(self):
         GameOver=False
+        self.viewer.setup()
+        humanColor=self.viewer.startScreen()
+        if humanColor=="W":
+            self.whitePlayer=HumanPlayer.HumanPlayer("W",self)
+            self.blackPlayer=AIPlayer.AIPlayer("B",self)
+        else:  
+            self.blackPlayer=HumanPlayer.HumanPlayer("B",self)
+            self.whitePlayer=AIPlayer.AIPlayer("W",self)
         self.blackPlayer.setupFirstTwoTiles(self.rows)
         self.whitePlayer.setupFirstTwoTiles(self.cols)
-        self.viewer.main()
+        turn = self.blackPlayer
+        
         self.updateViewer()
         while(not GameOver):
-            validMoves=self.turn.myMove(self.playingField)
+            validMoves=turn.myMove(self.playingField)
             if validMoves:
                 moveToMake=None
                 self.viewer.showPossibleMoves(validMoves)
-                if isinstance(self.turn,HumanPlayer.HumanPlayer):
+                if isinstance(turn,HumanPlayer.HumanPlayer):
                     while(moveToMake==None):
                         clickedTilePos=self.viewer.run()  
                         for move in validMoves:
@@ -39,34 +46,29 @@ class GameController:
                                 moveToMake=move
                                 break
                     
-                elif isinstance(self.turn,AIPlayer.AIPlayer) :
+                elif isinstance(turn,AIPlayer.AIPlayer) :
                     time.sleep(2)
-                    moveToMake=self.turn.calcBestMove(validMoves)
+                    moveToMake=turn.calcBestMove(validMoves)
                          
-                self.turn.makeMove(moveToMake.getPos())
+                turn.makeMove(moveToMake.getPos())
                 self.flipTiles(moveToMake.getTilesToFlip(),moveToMake.getColor())
                 #self.calculatePoints()
                 self.updateViewer()
-                if self.turn==self.whitePlayer:
-                    self.turn=self.blackPlayer
+                if turn==self.whitePlayer:
+                    turn=self.blackPlayer
                 else:
-                    self.turn=self.whitePlayer
+                    turn=self.whitePlayer
             else:
                 GameOver=True
         self.viewer.drawGameOver()
         
-
-                
-            
-       
 
     def createMatrix(self):
         tile_matrix = []
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
-                row.append(0)
-               
+                row.append(0)  
             tile_matrix.append(row)
         return tile_matrix
     
@@ -115,6 +117,6 @@ class GameController:
 
         
 
-GameController(4)
+GameController(8)
 
 

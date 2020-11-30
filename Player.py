@@ -75,9 +75,8 @@ class Player:
                     
                     if (points > 0):
                         move = Move.Move([i,j], points, self.color,tilesToFlip)
-                        allValidMoves.append(move)
-                        print("move to make: "+str(move.getPos())+"tiles to flip for this move is"+ str(move.getTilesToFlip()))
-                       # print(str(nw) + "<< nw "+ str(nn) + "<< nn " + str(ne) + "<< ne " + str(ee) + "<< ee " + str(se) + "<< se " + str(ss) + "<< ss " + str(sw) + "<< sw " + str(ww) +"<< ww ")
+                        allValidMoves.append(move)          
+                      
         return allValidMoves
 
 
@@ -88,7 +87,7 @@ class Player:
         elif (playerColor == "W"):
             other = "B"
         else:
-            print("problemo in colorino")
+            print("problemo with colorino")
 
         if (((offseti + i) < 0) or ((offseti + i) > (len(playingField)-1)) or ((offsetj + j) < 0) or ((offsetj + j) >(len(playingField)-1))):
             return 0
@@ -100,12 +99,12 @@ class Player:
 
     def findSelfInLine(self, playerColor, offseti, offsetj, i, j, playingField, other, counter):        
         if (((offseti + i) < 0) or ((offseti + i )>(len(playingField)-1)) or ((offsetj + j) < 0) or ((offsetj + j) >(len(playingField)-1))):
-            print("index out of bounds")
+           
             return 0
         else:
             if (playingField [offseti + i][offsetj + j] == other):
                 counter += 1
-                print(str(counter) + "added one to counter")
+                
                 counter=self.findSelfInLine(playerColor, offseti, offsetj, offseti + i, offsetj + j, playingField, other, counter)
                 return counter
             elif (playingField [offseti + i][offsetj + j] == playerColor):

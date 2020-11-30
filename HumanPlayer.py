@@ -6,6 +6,7 @@ class HumanPlayer(Player):
         
         Player.__init__(self,color,controller)
         self.name="Human"
+        
     def getName(self):
         return self.name
         
@@ -14,7 +15,7 @@ class HumanPlayer(Player):
         self.controller.placeTile([(boardSize//2),((boardSize//2)-1)],self.color)
 
     def handleIncomingMove(self, position):
-        print("player hanling move")
+        
         Player.makeMove(self,position)
 
     def myMove(self, playingField):
