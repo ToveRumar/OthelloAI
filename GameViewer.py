@@ -1,4 +1,4 @@
-import pygame, sys, tile,time
+import pygame, sys, tile,time,os
 from threading import Thread
 
 WHITE=(255,255,255)
@@ -16,12 +16,16 @@ class GameViewer:
         self.screen = None
         self.controller = controller
         self.tileMatrix = tileMatrix
-        
+        workingDir = os.path.dirname(__file__)
+        self.fontFile = os.path.join(workingDir, 'INVASION2000.ttf')
 
     def setup(self):           
         pygame.init()
+        #print(pygame.font.get_fonts())
+        
         self.screen = pygame.display.set_mode((740,self.size))
-        self.font = pygame.font.Font('freesansbold.ttf', 32)
+
+        self.font = pygame.font.Font(self.fontFile, 32)
         #self.draw(self.tileMatrix,0,0)
         
                     
@@ -118,42 +122,46 @@ class GameViewer:
 
 
     def drawGameOver(self):
-        font = pygame.font.Font('freesansbold.ttf', 80)
-        text = font.render("Game Over!", True, RED) 
+        font = pygame.font.Font(self.fontFile,80)
+        text =font.render("Game Over!", True, RED) 
         textRect = text.get_rect()  
-        textRect.center = (300, 300)
+        textRect.center = (300, 250)
+        self.screen.blit(text, textRect)
+        font = pygame.font.Font(self.fontFile,30)
+        text =font.render("(click anywhere to start over)", True, RED) 
+        textRect = text.get_rect()  
+        textRect.center = (300, 320)
         self.screen.blit(text, textRect)
         pygame.display.update()
-
-
-   
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit
-                    sys.exit()
+        self.waitForInput()
+        self.controller.NewGame()
+        
     
     def startScreen(self):
         pygame.draw.rect(self.screen,BLACK, (0,0, 380,600))
         pygame.draw.rect(self.screen,WHITE, (380,0, 380,600))
-        font = pygame.font.Font('freesansbold.ttf', 80)
+        font = pygame.font.Font(self.fontFile,60)
+        text = font.render("WELCOME TO", True, RED) 
+        textRect = text.get_rect()  
+        textRect.center = (380, 250)
+        self.screen.blit(text, textRect)
         text = font.render("OTHELLO", True, RED) 
         textRect = text.get_rect()  
-        textRect.center = (380, 300)
-        self.screen.blit(text, textRect) 
+        textRect.center = (380, 320)
+        self.screen.blit(text, textRect)
         pygame.display.update()
         pos=self.waitForInput()
         pygame.draw.rect(self.screen,BLACK, (0,0, 380,600))
         pygame.draw.rect(self.screen,WHITE, (380,0, 380,600))
-        font = pygame.font.Font('freesansbold.ttf',60)
+        font = pygame.font.Font(self.fontFile,60)
         text = font.render("Pick a Color", True, RED) 
         textRect = text.get_rect()  
-        textRect.center = (380, 300)
+        textRect.center = (380, 250)
         self.screen.blit(text, textRect) 
-        font = pygame.font.Font('freesansbold.ttf', 50)
+        font = pygame.font.Font(self.fontFile, 30)
         text = font.render("(Black begins)", True, RED) 
         textRect = text.get_rect()  
-        textRect.center = (380, 380)
+        textRect.center = (380, 320)
         self.screen.blit(text, textRect) 
         pygame.display.update()
         pos=self.waitForInput()

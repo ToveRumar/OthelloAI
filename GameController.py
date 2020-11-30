@@ -10,8 +10,8 @@ class GameController:
     def __init__ (self,size):
         self.rows = size
         self.cols = size
-        self.playingField = self.createMatrix()
-        self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
+        self.playingField = []
+        self.viewer = None
         self.whitePlayer=None
         self.blackPlayer=None
          
@@ -20,6 +20,8 @@ class GameController:
 
     def NewGame(self):
         GameOver=False
+        self.playingField = self.createMatrix()
+        self.viewer = GameViewer.GameViewer(self.rows, self.cols, 600, self, self.playingField)
         self.viewer.setup()
         humanColor=self.viewer.startScreen()
         if humanColor=="W":
@@ -117,6 +119,6 @@ class GameController:
 
         
 
-GameController(8)
+GameController(4)
 
 
