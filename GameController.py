@@ -76,7 +76,7 @@ class GameController:
     
     def updateViewer(self):
         self.calculatePoints()
-        self.viewer.draw(self.playingField,self. whitePlayer.getPoints(), self.blackPlayer.getPoints())
+        self.viewer.draw(self.playingField,self.whitePlayer.getName(),self.blackPlayer.getName(),self. whitePlayer.getPoints(), self.blackPlayer.getPoints())
 
   #  def handleClick(self, position):
        

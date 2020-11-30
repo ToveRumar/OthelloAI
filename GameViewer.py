@@ -74,9 +74,9 @@ class GameViewer:
             #pygame.draw.rect(self.screen,GREY,((8*width),(i*height),width,height))
             
 
-    def draw_text(self,whitePlayerPoints,blackPlayerPoints):
+    def draw_text(self,whitePlayerName, blackPlayerName,whitePlayerPoints,blackPlayerPoints):
         
-        text = self.font.render("Human", True, BLACK) 
+        text = self.font.render(blackPlayerName, True, BLACK) 
         textRect = text.get_rect()  
         textRect.center = (675, 20)
         self.screen.blit(text, textRect) 
@@ -84,11 +84,11 @@ class GameViewer:
         textRect = text.get_rect()  
         textRect.center = (675,60)
         self.screen.blit(text, textRect) 
-        text = self.font.render("AI", True, BLACK) 
+        text = self.font.render(whitePlayerName, True, WHITE) 
         textRect = text.get_rect()  
         textRect.center = (675,200)
         self.screen.blit(text, textRect) 
-        text = self.font.render(str(whitePlayerPoints), True, BLACK) 
+        text = self.font.render(str(whitePlayerPoints), True, WHITE) 
         textRect = text.get_rect()  
         textRect.center = (675,260)
         self.screen.blit(text, textRect) 
@@ -101,11 +101,11 @@ class GameViewer:
         col=x//width
         return [row,col]
 
-    def draw(self, tileMatrix,whitePlayerPoints,blackPlayerPoints):
+    def draw(self, tileMatrix,whitePlayerName,blackPlayerName, whitePlayerPoints,blackPlayerPoints):
         self.tileMatrix = tileMatrix
         self.draw_tiles()
         self.draw_grid()
-        self.draw_text(whitePlayerPoints,blackPlayerPoints)
+        self.draw_text(whitePlayerName,blackPlayerName,whitePlayerPoints,blackPlayerPoints)
         pygame.display.update()
 
     def showPossibleMoves(self, posMoves):
