@@ -47,7 +47,7 @@ class GameController:
                                 break
                     
                 elif isinstance(turn,AIPlayer.AIPlayer) :
-                    time.sleep(2)
+                    #time.sleep(2)
                     moveToMake=turn.calcBestMove(self.playingField,validMoves)
                          
                 turn.makeMove(moveToMake.getPos())

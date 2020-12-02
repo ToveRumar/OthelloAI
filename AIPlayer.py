@@ -33,7 +33,7 @@ class AIPlayer(Player):
         startTime=time.perf_counter()
         for move in validMoves:
             newboard=self.updateBoard(board, move, self.color)
-            res=self.minimax(newboard,7,self.maximizing,self.color,-1000,1000)
+            res=self.minimax(newboard,3,self.maximizing,self.color,-1000,1000)
             #print("res of minimax"+ str(res))
             #print("previous max points" + str(points))
             if res>=points:
@@ -84,7 +84,6 @@ class AIPlayer(Player):
                     if beta<=alpha:
                         #print("Pruning")
                         break
-                   
                 return minEval
             
     def calcPoints(self, board, playerColor):
