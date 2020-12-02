@@ -3,6 +3,7 @@ import random
 import sys
 import copy
 import time
+
 class AIPlayer(Player):
     
     def __init__(self,color,controller):
@@ -29,58 +30,70 @@ class AIPlayer(Player):
     def calcBestMove(self,board,validMoves):
         points=-1000
         moveToMake=None
-        print(str(validMoves))
+        startTime=time.perf_counter()
         for move in validMoves:
-            board=self.updateBoard(board, move, self.color)
-            res=self.minimax(board,3,not self.maximizing,self.color)
-            print("res"+str(res))
+            newboard=self.updateBoard(board, move, self.color)
+            res=self.minimax(newboard,7,self.maximizing,self.color,-1000,1000)
+            #print("res of minimax"+ str(res))
+            #print("previous max points" + str(points))
             if res>=points:
-                
                 moveToMake=move
                 points=res
+        totalTime=time.perf_counter()-startTime
+        print(totalTime)
         return moveToMake
         
 
-    def minimax(self, boardState, depth,maximizing, playerColor):
+    def minimax(self, boardState, depth,maximizing, playerColor,alpha,beta):
         if playerColor=="W":
             other="B"
         else:
             other="W"
         validMoves=Player.returnValidMoves(self,playerColor, boardState)
-        if depth == 0 or not validMoves:
+        if (depth == 0) or (not validMoves):
             points=self.calcPoints(boardState, playerColor)
+            
+           
             if not maximizing:
                 points=-points
-            #print("Calculating points for" + str(maximizing) + str(playerColor))
+           
             return points
+            
         else:
             childBoards = []
             for move in validMoves:
+               
                 childBoards.append(self.updateBoard(boardState, move, playerColor)) 
-        if maximizing:
-            maxEval = - 1000
-            for board in childBoards:
-                evaluation = self.minimax(board, depth - 1,False, other)
-                maxEval = max(maxEval, evaluation)
-                print("maxeval" + str(maxEval))
-            return maxEval
-        else:
-            minEval = 1000
-            for board in childBoards:
-                evaluation = self.minimax(board, depth - 1, True, other)
-                minEval = min(minEval, evaluation)
-                print("minval" + str(minEval))
-            return minEval
+            if maximizing:
+                maxEval = - 1000
+                for board in childBoards:
+                    evaluation = self.minimax(board, depth - 1,False, other,alpha,beta)
+                    
+                    maxEval = max(maxEval, evaluation)
+                    alpha=max(alpha,evaluation)
+                    if beta<=alpha:
+                        #print("Pruning")
+                        break
+                return maxEval
+            else:
+                minEval = 1000
+                for board in childBoards:
+                    evaluation = self.minimax(board, depth - 1, True, other,alpha,beta)   
+                    minEval = min(minEval, evaluation)
+                    beta=min(beta,evaluation)
+                    if beta<=alpha:
+                        #print("Pruning")
+                        break
+                   
+                return minEval
             
     def calcPoints(self, board, playerColor):
         points = 0
         for row in board:
             for tile in row:
                 if tile == playerColor:
-                    points = points + 1
-      
-
-        
+                    points += 1
+                    
         return points
         
 
@@ -88,9 +101,11 @@ class AIPlayer(Player):
     def updateBoard(self, board , move, color):
         newBoard = copy.deepcopy(board)
         tilesToFlip= move.getTilesToFlip()
-        tilesToFlip.append(move.getPos())
+
         for tiles in tilesToFlip:
             newBoard[tiles[0]][tiles[1]]=color
+
+        
         return newBoard
     
     

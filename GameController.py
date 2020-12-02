@@ -14,7 +14,6 @@ class GameController:
         self.viewer = None
         self.whitePlayer=None
         self.blackPlayer=None
-         
         self.NewGame()
         
 
@@ -33,7 +32,6 @@ class GameController:
         self.blackPlayer.setupFirstTwoTiles(self.rows)
         self.whitePlayer.setupFirstTwoTiles(self.cols)
         turn = self.blackPlayer
-        
         self.updateViewer()
         while(not GameOver):
             validMoves=turn.myMove(self.playingField)
