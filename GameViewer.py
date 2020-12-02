@@ -162,7 +162,7 @@ class GameViewer:
         textRect.center = (380, 250)
         self.screen.blit(text, textRect) 
         font = pygame.font.Font(self.fontFile, 30)
-        text = font.render("(Black begins)", True, RED) 
+        text = font.render("(Black goes first )", True, RED) 
         textRect = text.get_rect()  
         textRect.center = (380, 320)
         self.screen.blit(text, textRect) 
