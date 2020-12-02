@@ -22,7 +22,7 @@ class Player:
         return self.color
 
     
-    def returnValidMoves(self, playingField):
+    def returnValidMoves(self, color, playingField):
         allValidMoves = []
         
         #allValidMoves = [[0 for i in range(len(playingField))] for j in range(len(playingField))]
@@ -31,42 +31,42 @@ class Player:
                 tilesToFlip=[]
                 if playingField[i][j] == 0:
                     
-                    nw = self.isValid(self.color, -1, -1, i, j, playingField)
+                    nw = self.isValid(color, -1, -1, i, j, playingField)
                     if nw:
                         for count in range(nw+ 1):
                             tilesToFlip.append([i-count, j-count])
 
-                    nn = self.isValid(self.color, -1, 0, i, j, playingField)
+                    nn = self.isValid(color, -1, 0, i, j, playingField)
                     if nn:
                         for count in range(nn+ 1):
                             tilesToFlip.append([i-count, j])
 
-                    ne = self.isValid(self.color, -1, 1, i, j, playingField)
+                    ne = self.isValid(color, -1, 1, i, j, playingField)
                     if ne:
                         for count in range(ne+ 1):
                             tilesToFlip.append([i-count,j+count])
 
-                    ee = self.isValid(self.color, 0, 1, i, j, playingField)
+                    ee = self.isValid(color, 0, 1, i, j, playingField)
                     if ee:
                         for count in range(ee+ 1):
                             tilesToFlip.append([i,j+count])
 
-                    se = self.isValid(self.color, 1, 1, i, j, playingField)
+                    se = self.isValid(color, 1, 1, i, j, playingField)
                     if se:    
                         for count in range(se+ 1):
                             tilesToFlip.append([i+count,j+count])
 
-                    ss = self.isValid(self.color, 1, 0, i, j, playingField)
+                    ss = self.isValid(color, 1, 0, i, j, playingField)
                     if ss:
                         for count in range(ss + 1):
                             tilesToFlip.append([i+count,j])
 
-                    sw = self.isValid(self.color, 1, -1, i, j, playingField)
+                    sw = self.isValid(color, 1, -1, i, j, playingField)
                     if sw:
                         for count in range(sw+ 1):
                             tilesToFlip.append([i+count,j-count])
 
-                    ww = self.isValid(self.color, 0, -1, i, j, playingField)
+                    ww = self.isValid(color, 0, -1, i, j, playingField)
                     if ww:
                         for count in range(ww+ 1):
                             tilesToFlip.append([i,j-count])
@@ -74,7 +74,7 @@ class Player:
                     points = nw + nn + ne + ee + se + ss + sw + ww
                     
                     if (points > 0):
-                        move = Move.Move([i,j], points, self.color,tilesToFlip)
+                        move = Move.Move([i,j], points, color,tilesToFlip)
                         allValidMoves.append(move)          
                       
         return allValidMoves

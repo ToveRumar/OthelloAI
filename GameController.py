@@ -50,7 +50,7 @@ class GameController:
                     
                 elif isinstance(turn,AIPlayer.AIPlayer) :
                     time.sleep(2)
-                    moveToMake=turn.calcBestMove(validMoves)
+                    moveToMake=turn.calcBestMove(self.playingField,validMoves)
                          
                 turn.makeMove(moveToMake.getPos())
                 self.flipTiles(moveToMake.getTilesToFlip(),moveToMake.getColor())
@@ -65,8 +65,8 @@ class GameController:
         winner=None
         if self.whitePlayer.getPoints()>self.blackPlayer.getPoints():
             winner=self.whitePlayer.getName()
-        elif self.whitePlayer.getPoints<self.blackPlayer.getPoints():
-            winner=self.blackPlayer.getName
+        elif self.whitePlayer.getPoints()<self.blackPlayer.getPoints():
+            winner=self.blackPlayer.getName()
 
         self.viewer.drawGameOver(winner)
         
@@ -125,6 +125,6 @@ class GameController:
 
         
 
-GameController(4)
+GameController(8)
 
 
