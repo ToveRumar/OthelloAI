@@ -11,6 +11,7 @@ class AIPlayer(Player):
         Player.__init__(self,color,controller)
         self.name="AI"
         self.maximizing=True
+        self.searchDepth=3
     
     def getName(self):
         return self.name
@@ -28,23 +29,27 @@ class AIPlayer(Player):
         
 
     def calcBestMove(self,board,validMoves):
+        self.counter=0
         points=-1000
         moveToMake=None
         startTime=time.perf_counter()
         for move in validMoves:
             newboard=self.updateBoard(board, move, self.color)
-            res=self.minimax(newboard,3,self.maximizing,self.color,-1000,1000)
-            #print("res of minimax"+ str(res))
-            #print("previous max points" + str(points))
+          
+            res=self.minimax(newboard,self.searchDepth,self.maximizing,self.color,-1000,1000,)
+           
             if res>=points:
                 moveToMake=move
                 points=res
         totalTime=time.perf_counter()-startTime
-        print(totalTime)
+       # print(totalTime)
+        print("Number of nodes evaluated; "+str(self.counter)+ " search depth is: " + str(self.searchDepth))
+        
         return moveToMake
         
 
     def minimax(self, boardState, depth,maximizing, playerColor,alpha,beta):
+
         if playerColor=="W":
             other="B"
         else:
@@ -100,7 +105,7 @@ class AIPlayer(Player):
     def updateBoard(self, board , move, color):
         newBoard = copy.deepcopy(board)
         tilesToFlip= move.getTilesToFlip()
-
+        self.counter+=1
         for tiles in tilesToFlip:
             newBoard[tiles[0]][tiles[1]]=color
 

@@ -1,5 +1,5 @@
 import pygame, sys, tile,time,os
-from threading import Thread
+
 
 WHITE=(255,255,255)
 BLACK=(0,0,0)
